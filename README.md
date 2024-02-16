@@ -22,6 +22,10 @@ go get github.com/broothie/option
 import "github.com/broothie/option"
 ```
 
+## Documentation
+
+The API is small, so taking a look at the [package index on pkg.go.dev](https://pkg.go.dev/github.com/broothie/option#pkg-index) should get you up to speed.
+
 ## Usage
 
 Let's say you have a `Server` that you'd like to be configurable:
@@ -68,7 +72,7 @@ In it, use `option.Apply` to run the new server instance through the provided op
 
 ```go
 func New(options ...option.Option[*Server]) (*Server, error) {
-    return option.Apply(new(Server), options...)
+	return option.Apply(new(Server), options...)
 }
 ```
 
@@ -102,7 +106,7 @@ func (h Headers) Apply(server *Server) (*Server, error) {
 }
 ```
 
-Now, a caller can pass configure their server's headers like this:
+Now, a caller can configure their server's headers like this:
 
 ```go
 srv, err := server.New(server.Headers{
