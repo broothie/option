@@ -1,7 +1,6 @@
 package option
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -20,13 +19,12 @@ func NewOptions[T any](options ...Option[T]) Options[T] {
 
 // Apply applies a list of options to t.
 func (o Options[T]) Apply(t T) (T, error) {
-	var errs []error
 	for i, option := range o {
 		var err error
 		if t, err = option.Apply(t); err != nil {
-			errs = append(errs, fmt.Errorf("failed to apply option %d: %w", i, err))
+			return t, fmt.Errorf("failed to apply option %d: %w", i, err)
 		}
 	}
 
-	return t, errors.Join(errs...)
+	return t, nil
 }

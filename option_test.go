@@ -4,9 +4,6 @@ import (
 	"errors"
 	"net/url"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 type Client struct {
@@ -37,23 +34,34 @@ func TestApply(t *testing.T) {
 	t.Run("applies options", func(t *testing.T) {
 		apiKey := "foo-api-key"
 		baseURL, err := url.Parse("https://example.com")
-		require.NoError(t, err)
+		requireNoError(t, err)
 
-		client, err := Apply[Client](Client{},
+		got, err := Apply[Client](Client{},
 			OptionAPIKey(apiKey),
 			OptionBaseURL(baseURL.String()),
 		)
-		require.NoError(t, err)
+		requireNoError(t, err)
 
-		assert.Equal(t, Client{APIKey: apiKey, BaseURL: baseURL}, client)
+		want := Client{APIKey: apiKey, BaseURL: baseURL}
+		if got.APIKey != want.APIKey || got.BaseURL.String() != want.BaseURL.String() {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
 	})
 
-	t.Run("collects errors", func(t *testing.T) {
-		_, err := Apply[Client](Client{},
-			OptionBaseURL("%"),
+	t.Run("fails on error", func(t *testing.T) {
+		_, got := Apply[Client](Client{},
 			Func[Client](func(Client) (Client, error) { return Client{}, errors.New("foo error") }),
 		)
 
-		assert.EqualError(t, err, "failed to apply option 0: parse \"%\": invalid URL escape \"%\"\nfailed to apply option 1: foo error")
+		want := "failed to apply option 0: foo error"
+		if got.Error() != want {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
 	})
+}
+
+func requireNoError(t *testing.T, err error) {
+	if err != nil {
+		t.Fatalf("error when none expected: %v", err)
+	}
 }
