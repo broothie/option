@@ -1,5 +1,10 @@
 # `option`
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/broothie/option.svg)](https://pkg.go.dev/github.com/broothie/option)
+[![Go Report Card](https://goreportcard.com/badge/github.com/broothie/option)](https://goreportcard.com/report/github.com/broothie/option)
+[![codecov](https://codecov.io/gh/broothie/option/graph/badge.svg?token=dud3HQaZbN)](https://codecov.io/gh/broothie/option)
+[![gosec](https://github.com/broothie/option/actions/workflows/gosec.yml/badge.svg)](https://github.com/broothie/option/actions/workflows/gosec.yml)
+
 This package aims to make it easy to use the [options pattern](https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis) in Go.
 It uses generics to ensure type safety, and has no dependencies outside the standard library.
 
