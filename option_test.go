@@ -58,6 +58,18 @@ func TestApply(t *testing.T) {
 			t.Errorf("got: %v, want: %v", got, want)
 		}
 	})
+
+	t.Run("fails on nil option", func(t *testing.T) {
+		_, got := Apply[Client](Client{},
+			OptionAPIKey("foo-api-key"),
+			Option[Client](nil),
+		)
+
+		want := "option 1 is nil"
+		if got.Error() != want {
+			t.Errorf("got: %v, want: %v", got, want)
+		}
+	})
 }
 
 func requireNoError(t *testing.T, err error) {
