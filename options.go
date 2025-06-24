@@ -7,7 +7,7 @@ import (
 // Options is a list of Option, and satisfies the Option interface.
 type Options[T any] []Option[T]
 
-// NewOptions converts a []Option to an Options.
+// NewOptions wraps the provided Option values into an Options slice.
 func NewOptions[T any](options ...Option[T]) Options[T] {
 	opts := make(Options[T], len(options))
 	for i, option := range options {
