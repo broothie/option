@@ -61,6 +61,8 @@ func TestApply(t *testing.T) {
 }
 
 func requireNoError(t *testing.T, err error) {
+	t.Helper()
+
 	if err != nil {
 		t.Fatalf("error when none expected: %v", err)
 	}
